@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Potholes</string>
+    <string name="access_token">access_token</string>
+</resources>
