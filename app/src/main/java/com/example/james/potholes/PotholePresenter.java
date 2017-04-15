@@ -1,15 +1,11 @@
 package com.example.james.potholes;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.example.james.potholes.models.AuthModel;
 import com.example.james.potholes.models.PotholeModel;
 import com.example.james.potholes.retrofit.model.pothole.Pothole;
-import com.example.james.potholes.retrofit.model.user.Authenticate;
 import com.example.james.potholes.retrofit.remote.APIService;
 import com.example.james.potholes.retrofit.remote.ApiUtils;
-import com.example.james.potholes.util.SavedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,43 +21,15 @@ import retrofit2.Response;
 public class PotholePresenter {
 
     private PotholeView view;
-    private Context context;
     private PotholeModel potholeModel;
-    private AuthModel authModel;
     private APIService apiService;
     private String TAG = "pothole presentor";
 
-    public PotholePresenter(PotholeView view, Context context, String accessToken)
+    public PotholePresenter(PotholeView view)
     {
         this.view = view;
-        this.context = context;
         potholeModel = new PotholeModel(true,null,null);
-        authModel = new AuthModel(accessToken);
-        apiService = ApiUtils.getAPIService(authModel.getAccessToken());
-    }
-
-    public void tokenRefreshed()
-    {
-        apiService = ApiUtils.getAPIService(authModel.getAccessToken());
-    }
-
-    public void getNewAccessToken()
-    {
-        apiService.authenticate(authModel.getDisplayName(), authModel.getPassword()).enqueue(new Callback<Authenticate>() {
-            @Override
-            public void onResponse(Call<Authenticate> call, Response<Authenticate> response) {
-                if(response.isSuccessful()) {
-                    authModel = new AuthModel(authModel.getDisplayName(),authModel.getPassword(),response.body().getToken());
-                    tokenRefreshed();
-                    SavedPrefsUtils.setLocalAccessToken(context,authModel.getAccessToken());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Authenticate> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API.");
-            }
-        });
+        apiService = ApiUtils.getAPIService();
     }
 
     public void getAllPotholes()

@@ -17,10 +17,10 @@ public class RetrofitClient {
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getClient(String baseUrl, final String accessToken) {
+    public static Retrofit getClient(String baseUrl) {
         if (retrofit==null) {
 
-            Interceptor interceptor = new Interceptor() {
+            /*Interceptor interceptor = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     final Request request = chain.request().newBuilder()
@@ -32,11 +32,11 @@ public class RetrofitClient {
             };
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
             httpClient.addInterceptor(interceptor);
-            OkHttpClient client = httpClient.build();
+            OkHttpClient client = httpClient.build();*/
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
-                    .client(client)
+                    //.client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

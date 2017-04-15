@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.james.potholes.models.PotholeModel;
 import com.example.james.potholes.util.BaseActivity;
-import com.example.james.potholes.util.SavedPrefsUtils;
 
 public class MainActivity extends BaseActivity implements PotholePresenter.PotholeView{
 
@@ -15,10 +14,8 @@ public class MainActivity extends BaseActivity implements PotholePresenter.Potho
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new PotholePresenter(this, this, SavedPrefsUtils.getLocalAccessToken(this));
-        //presenter.getNewAccessToken();
+        presenter = new PotholePresenter(this);
         presenter.getAllPotholes();
-        //presenter.getPotholeByID(2);
     }
 
     @Override
