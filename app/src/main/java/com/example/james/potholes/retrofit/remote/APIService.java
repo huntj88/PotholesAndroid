@@ -3,6 +3,8 @@ package com.example.james.potholes.retrofit.remote;
 import com.example.james.potholes.retrofit.model.pothole.Pothole;
 import com.example.james.potholes.retrofit.model.user.Authenticate;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -23,6 +25,9 @@ public interface APIService {
 
     @GET
     Call<Pothole> potholeByID(@Url String url);
+
+    @GET("/pothole/all")
+    Call<List<Pothole>> getAllPotholes();
 
 
 }

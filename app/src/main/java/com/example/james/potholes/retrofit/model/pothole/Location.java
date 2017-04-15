@@ -11,24 +11,24 @@ public class Location {
 
     @SerializedName("x")
     @Expose
-    private Integer x;
+    private Float x;
     @SerializedName("y")
     @Expose
-    private Integer y;
+    private Float y;
 
-    public Integer getX() {
+    public Float getX() {
         return x;
     }
 
-    public void setX(Integer x) {
+    public void setX(Float x) {
         this.x = x;
     }
 
-    public Integer getY() {
+    public Float getY() {
         return y;
     }
 
-    public void setY(Integer y) {
+    public void setY(Float y) {
         this.y = y;
     }
 
