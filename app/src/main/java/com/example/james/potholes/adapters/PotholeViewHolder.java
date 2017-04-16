@@ -1,9 +1,10 @@
-package com.example.james.potholes;
+package com.example.james.potholes.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.james.potholes.R;
 import com.example.james.potholes.retrofit.model.pothole.Pothole;
 
 import butterknife.BindView;

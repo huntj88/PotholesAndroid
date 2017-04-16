@@ -1,4 +1,4 @@
-package com.example.james.potholes;
+package com.example.james.potholes.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.james.potholes.R;
 import com.example.james.potholes.models.PotholeModel;
 
 /**

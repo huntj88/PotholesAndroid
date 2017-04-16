@@ -10,6 +10,8 @@ import java.util.List;
 
 public class PotholeModel {
 
+    //this class is set up to be immutable.
+
     private final boolean loading;
     private final List<Pothole> potholes;
     private final Throwable error;

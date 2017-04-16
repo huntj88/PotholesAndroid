@@ -11,17 +11,18 @@ import com.example.james.potholes.retrofit.model.user.Authenticate;
 
 public class AuthModel {
 
-    private String accessToken;
-    private long expireUnixTime;
-    private int userid;
+    //this class is set up to be immutable.
+    // currently only using accessToken field, but will need the other stuff later.
+
+    final private String accessToken;
+    final private long expireUnixTime = 0;
+    final private int userid = 0;
 
     public AuthModel(Authenticate auth)
     {
         accessToken = auth.getToken();
         //JWT jwt = new JWT(auth.getToken());
-
         //expireUnixTime = jwt.getExpiresAt().getTime();
-
         //Log.d("expire",expireUnixTime+"");
     }
 
