@@ -2,6 +2,7 @@ package com.example.james.potholes;
 
 import android.util.Log;
 
+import com.example.james.potholes.models.AuthModel;
 import com.example.james.potholes.models.PotholeModel;
 import com.example.james.potholes.retrofit.model.pothole.Pothole;
 import com.example.james.potholes.retrofit.remote.APIService;
@@ -25,11 +26,11 @@ public class PotholePresenter {
     private APIService apiService;
     private String TAG = "pothole presentor";
 
-    public PotholePresenter(PotholeView view)
+    public PotholePresenter(PotholeView view, AuthModel authModel)
     {
         this.view = view;
         potholeModel = new PotholeModel(true,null,null);
-        apiService = ApiUtils.getAPIService();
+        apiService = ApiUtils.getAPIService(authModel);
     }
 
     public void getAllPotholes()
