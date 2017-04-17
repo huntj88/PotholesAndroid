@@ -59,6 +59,10 @@ public class MainActivity extends BaseActivity implements
         setUpMapIfNeeded();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {

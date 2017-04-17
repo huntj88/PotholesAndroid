@@ -7,17 +7,33 @@ package com.example.james.potholes.retrofit.model.pothole;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Pothole {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Pothole extends RealmObject{
+
+    @PrimaryKey
     @SerializedName("potholeID")
     @Expose
     private Integer potholeID;
+
     @SerializedName("userID")
     @Expose
     private Integer userID;
+
     @SerializedName("location")
     @Expose
     private Location location;
+
+    @SerializedName("fixed")
+    @Expose
+    private Integer fixed;
+
+    @SerializedName("modified")
+    @Expose
+    private Integer modified;
+
+
 
     public Integer getPotholeID() {
         return potholeID;
@@ -43,4 +59,19 @@ public class Pothole {
         this.location = location;
     }
 
+    public Integer getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(Integer fixed) {
+        this.fixed = fixed;
+    }
+
+    public Integer getModified() {
+        return modified;
+    }
+
+    public void setModified(Integer modified) {
+        this.modified = modified;
+    }
 }

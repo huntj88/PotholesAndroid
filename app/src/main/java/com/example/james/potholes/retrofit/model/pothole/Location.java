@@ -7,7 +7,9 @@ package com.example.james.potholes.retrofit.model.pothole;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Location {
+import io.realm.RealmObject;
+
+public class Location extends RealmObject {
 
     @SerializedName("x")
     @Expose

@@ -3,6 +3,7 @@ package com.example.james.potholes.retrofit.remote;
 import android.util.Log;
 
 import com.example.james.potholes.models.AuthModel;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.IOException;
 
@@ -32,7 +33,6 @@ public class RetrofitClient {
                             .addHeader("access-token", authModel.getAccessToken())
                             .build();
 
-                    Log.d(TAG,authModel.getAccessToken()+"");
                     return chain.proceed(request);
                 }
             };
@@ -42,6 +42,7 @@ public class RetrofitClient {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
