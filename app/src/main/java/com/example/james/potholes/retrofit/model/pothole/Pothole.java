@@ -16,12 +16,24 @@ public class Pothole extends RealmObject{
     @SerializedName("potholeID")
     @Expose
     private Integer potholeID;
+
     @SerializedName("userID")
     @Expose
     private Integer userID;
+
     @SerializedName("location")
     @Expose
     private Location location;
+
+    @SerializedName("fixed")
+    @Expose
+    private Integer fixed;
+
+    @SerializedName("modified")
+    @Expose
+    private Integer modified;
+
+
 
     public Integer getPotholeID() {
         return potholeID;
@@ -47,4 +59,19 @@ public class Pothole extends RealmObject{
         this.location = location;
     }
 
+    public Integer getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(Integer fixed) {
+        this.fixed = fixed;
+    }
+
+    public Integer getModified() {
+        return modified;
+    }
+
+    public void setModified(Integer modified) {
+        this.modified = modified;
+    }
 }

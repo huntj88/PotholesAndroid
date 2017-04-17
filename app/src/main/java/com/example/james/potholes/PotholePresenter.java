@@ -9,11 +9,20 @@ import com.example.james.potholes.retrofit.remote.APIService;
 import com.example.james.potholes.retrofit.remote.ApiUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.schedulers.Schedulers;
+
 import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.RealmQuery;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,21 +38,85 @@ public class PotholePresenter {
     private PotholeModel potholeModel;
     private APIService apiService;
     private String TAG = "pothole presentor";
-    private Realm realm;
+    //private Realm realm;
 
     public PotholePresenter(PotholeView view, AuthModel authModel)
     {
         this.view = view;
         potholeModel = new PotholeModel(true,null,null);
         apiService = ApiUtils.getAPIService(authModel);
-        realm = Realm.getDefaultInstance();
+        //realm = Realm.getDefaultInstance();
     }
 
-    public void closeRealm()
+
+    /*public void combineTest()
     {
-        realm.close();
-    }
 
+        Observable<RealmResults<Pothole>> realmObservable = Observable.create(new ObservableOnSubscribe<RealmResults<Pothole>>() {
+            @Override
+            public void subscribe(ObservableEmitter<RealmResults<Pothole>> observableEmitter) throws Exception {
+
+                Realm realm = null;
+                try { // I could use try-with-resources here
+                    realm = Realm.getDefaultInstance();
+                    RealmResults<Pothole> results = realm.where(Pothole.class).findAll();
+                    observableEmitter.onNext(results);
+                    observableEmitter.onComplete();
+
+                } finally {
+                    if(realm != null) {
+                        realm.close();
+                    }
+                }
+            }
+        });
+
+        Observable<List<Pothole>> apiObservable = apiService.getAllPotholes();
+
+
+        Observable<List<Pothole>> combined = Observable.merge(realmObservable,apiObservable);
+
+
+        combined.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.computation())
+                .subscribeWith(new DisposableObserver<List<Pothole>>() {
+                    @Override
+                    public void onNext(List<Pothole> potholes) {
+
+                        //Log.d(TAG,potholes.size()+"");
+                        Log.d(TAG,Thread.currentThread().getName()+" thread");
+
+
+                        if(potholes instanceof RealmList) {
+                            Log.d(TAG, "realm list");
+                            potholeModel = new PotholeModel(false,potholes,null);
+                            view.render(potholeModel);
+
+                        }
+                        else
+                        {
+                            Log.d(TAG,potholes.getClass().getSimpleName());
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG,"complete");
+                    }
+                });
+
+
+
+
+
+
+    }*/
 
     public void getAllPotholes()
     {
@@ -53,20 +126,9 @@ public class PotholePresenter {
 
         apiService.getAllPotholes().enqueue(new Callback<List<Pothole>>() {
             @Override
-            public void onResponse(Call<List<Pothole>> call, Response<List<Pothole>> response) {
+            public void onResponse(Call<List<Pothole>> call, final Response<List<Pothole>> response) {
                 if(response.isSuccessful()) {
                     potholeModel = new PotholeModel(false,response.body(),null);
-                    realm.beginTransaction();
-
-                    for(Pothole p: response.body())
-                    {
-                        realm.copyToRealmOrUpdate(p);
-                    }
-                    realm.commitTransaction();
-
-                    /*RealmResults<Pothole> getAllPotholes = realm.where(Pothole.class).findAll();
-                    Log.d(TAG,getAllPotholes.size()+"");*/
-
                     view.render(potholeModel);
                 }
                 else
