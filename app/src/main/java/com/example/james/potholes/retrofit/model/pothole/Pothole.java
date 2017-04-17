@@ -7,8 +7,12 @@ package com.example.james.potholes.retrofit.model.pothole;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Pothole {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Pothole extends RealmObject{
+
+    @PrimaryKey
     @SerializedName("potholeID")
     @Expose
     private Integer potholeID;

@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class MainActivity extends BaseActivity implements
         PotholePresenter.PotholeView,
@@ -59,6 +60,11 @@ public class MainActivity extends BaseActivity implements
         setUpMapIfNeeded();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.closeRealm();
+    }
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {

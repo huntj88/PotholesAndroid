@@ -11,6 +11,10 @@ import com.example.james.potholes.retrofit.remote.ApiUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,13 +29,21 @@ public class PotholePresenter {
     private PotholeModel potholeModel;
     private APIService apiService;
     private String TAG = "pothole presentor";
+    private Realm realm;
 
     public PotholePresenter(PotholeView view, AuthModel authModel)
     {
         this.view = view;
         potholeModel = new PotholeModel(true,null,null);
         apiService = ApiUtils.getAPIService(authModel);
+        realm = Realm.getDefaultInstance();
     }
+
+    public void closeRealm()
+    {
+        realm.close();
+    }
+
 
     public void getAllPotholes()
     {
@@ -44,6 +56,17 @@ public class PotholePresenter {
             public void onResponse(Call<List<Pothole>> call, Response<List<Pothole>> response) {
                 if(response.isSuccessful()) {
                     potholeModel = new PotholeModel(false,response.body(),null);
+                    realm.beginTransaction();
+
+                    for(Pothole p: response.body())
+                    {
+                        realm.copyToRealmOrUpdate(p);
+                    }
+                    realm.commitTransaction();
+
+                    /*RealmResults<Pothole> getAllPotholes = realm.where(Pothole.class).findAll();
+                    Log.d(TAG,getAllPotholes.size()+"");*/
+
                     view.render(potholeModel);
                 }
                 else
